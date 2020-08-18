@@ -1,8 +1,10 @@
-var player1Name = prompt('Enter player 1:');
-var player2Name = prompt('Enter player 2:');
+var player1Name = prompt('Enter player 1 (max. 8 characters):');
+var player2Name = prompt('Enter player 2 (max. 8 characters):');
+player1Name = player1Name && player1Name.length < 9 ? player1Name : 'Player 1';
+player2Name = player2Name && player2Name.length < 9 ? player2Name : 'Player 2';
 var scoreboard = [0,0];
 var player0, player1, currentPlayer, playerArr;
-
+var isMatchPlaying;
 var game = {
     
     rollDice: () => {
@@ -30,6 +32,7 @@ var game = {
             document.getElementById('current-' + index).textContent = 0;
         }
         currentPlayer = 0;
+        isMatchPlaying = true;
         document.getElementById('dice').style.display = 'none';
         document.querySelector('.player-' + currentPlayer + '-panel').classList.add('active');
     },
@@ -50,66 +53,66 @@ var game = {
 game.init();
 
 document.querySelector('.btn-roll').addEventListener('click', () => {
-    var diceValue = game.rollDice();
-    console.log('value of dice: ' + diceValue +
-     ' (Player ' + (currentPlayer + 1) + ')');
+    if ( isMatchPlaying ) {
+        var diceValue = game.rollDice();
+        console.log('value of dice: ' + diceValue +
+        ' (Player ' + (currentPlayer + 1) + ')');
 
-    var diceDOM = document.getElementById('dice');
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'resources/dice-' + diceValue + '.png';
+        var diceDOM = document.getElementById('dice');
+        diceDOM.style.display = 'block';
+        diceDOM.src = 'resources/dice-' + diceValue + '.png';
 
     
 
-    if (diceValue !== 1) {
-        playerArr[currentPlayer].currentScore += diceValue;
-        document.getElementById('current-' + currentPlayer).textContent = 
-            playerArr[currentPlayer].currentScore;
+        if (diceValue !== 1) {
+            playerArr[currentPlayer].currentScore += diceValue;
+            document.getElementById('current-' + currentPlayer).textContent = 
+                playerArr[currentPlayer].currentScore;
 
-    } else {
-        playerArr[currentPlayer].currentScore = 0;
-        document.getElementById('current-' + currentPlayer).textContent = 
-            playerArr[currentPlayer].currentScore;
+        } else {
+            playerArr[currentPlayer].currentScore = 0;
+            document.getElementById('current-' + currentPlayer).textContent = 
+                playerArr[currentPlayer].currentScore;
         
-        game.changeCurrentPlayer();
-        diceDOM.style.display = 'none';
+            game.changeCurrentPlayer();
+            diceDOM.style.display = 'none';
 
-    }
-     
+        }
+    }  
 });
 
 document.querySelector('.btn-hold').addEventListener('click', () => {
-    console.log(playerArr[currentPlayer]);
-    playerArr[currentPlayer].totalScore += playerArr[currentPlayer].currentScore;
-    playerArr[currentPlayer].currentScore = 0;
-    console.log(playerArr[currentPlayer]);
+    if ( isMatchPlaying ) {
+        console.log(playerArr[currentPlayer]);
+        playerArr[currentPlayer].totalScore += playerArr[currentPlayer].currentScore;
+        playerArr[currentPlayer].currentScore = 0;
+        console.log(playerArr[currentPlayer]);
 
-    document.getElementById('current-' + currentPlayer).textContent = 0;
-    document.getElementById('score-' + currentPlayer).textContent = 
-        playerArr[currentPlayer].totalScore;
+        document.getElementById('current-' + currentPlayer).textContent = 0;
+        document.getElementById('score-' + currentPlayer).textContent = 
+            playerArr[currentPlayer].totalScore;
 
-    if (playerArr[currentPlayer].totalScore >= 20) {
-        console.log('Player ' + (currentPlayer + 1) + ' won the match!');
-        scoreboard[currentPlayer] += 1;
-        game.updateScoreboard();
-        document.getElementById('dice').style.display = 'none';
-        document.getElementById('name-' + currentPlayer).textContent = 'Winner!';
-        document.querySelector('.player-' + currentPlayer + '-panel').classList.remove('active');
-        document.querySelector('.player-' + currentPlayer + '-panel').classList.add('winner');
-        document.querySelector('.btn-roll').style.display = 'none';
-        document.querySelector('.btn-hold').style.display = 'none';
-    } else {
-        console.log('Next player!');
-        document.getElementById('dice').style.display = 'none';
-        game.changeCurrentPlayer();
+        if (playerArr[currentPlayer].totalScore >= 20) {
+            isMatchPlaying = false;
+            console.log('Player ' + (currentPlayer + 1) + ' won the match!');
+            scoreboard[currentPlayer] += 1;
+            game.updateScoreboard();
+            document.getElementById('dice').style.display = 'none';
+            document.getElementById('name-' + currentPlayer).textContent = 'Winner!';
+            document.querySelector('.player-' + currentPlayer + '-panel').classList.remove('active');
+            document.querySelector('.player-' + currentPlayer + '-panel').classList.add('winner');
+
+        } else {
+            console.log('Next player!');
+            document.getElementById('dice').style.display = 'none';
+            game.changeCurrentPlayer();
+        }
     }
-    
 });
 
 document.querySelector('.btn-new').addEventListener('click', () => {
     document.querySelector('.player-' + currentPlayer + '-panel').classList.remove('winner');
     document.querySelector('.player-' + currentPlayer + '-panel').classList.remove('active');
-    document.querySelector('.btn-roll').style.display = 'block';
-    document.querySelector('.btn-hold').style.display = 'block';
     game.init();
 });
 
