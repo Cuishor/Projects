@@ -137,30 +137,53 @@ i {
     transition: margin 0.3s;
 }
 
-.global-score {
+.scoreboard {
     position: absolute;
-    left: 46.75%;
+    left: 50%;
+    transform: translateX(-50%);
     top: 35px;
     font-size: 35px;
     font-weight: 300;
     font-family: Lato;
     color: #555;
-    transition: color 0.5s;
     background: none;
  }
 
- .global-score:hover {
-        font-weight: 600;
+ .score-ceiling {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 535px;
+ }
+
+ .score-ceiling-input {
+    background: #fff;
+    font-weight: 410;
+    font-size: 20px;
+    font-family: Lato;   
+    color: #555;
+    width: 110px;
+    border-width: 1px;
+    border-radius: 5px;
  }
 
 .btn-new { top: 100px;}
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
 
-.dice {
+.dice-0 {
     position: absolute;
     left: 50%;
-    top: 178px;
+    top: 150px;
+    transform: translateX(-50%);
+    height: 100px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+}
+
+.dice-1 {
+    position: absolute;
+    left: 50%;
+    top: 260px;
     transform: translateX(-50%);
     height: 100px;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);

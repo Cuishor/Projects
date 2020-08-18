@@ -29,12 +29,16 @@
                 </div>
             </div>
 
-            <p class="global-score" id="global-score">0 - 0</p>
+            <p class="scoreboard" id="scoreboard">0 - 0</p>
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
             <button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
             <button class="btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+            <div class="score-ceiling"><i class="ion-ribbon-a"></i><input type="text" class="score-ceiling-input" id="score-ceiling-input"
+                onkeypress=" return onlyDigit( event ) "></div>
+            
         
-            <img src="resources/dice-5.png" alt="Dice" class="dice" id="dice">
+            <img src="resources/dice-6.png" alt="Dice" class="dice-0" id="dice-0">
+            <img src="resources/dice-6.png" alt="Dice" class="dice-1" id="dice-1">
         </div>
 
         <script src="js/app.js"></script>
